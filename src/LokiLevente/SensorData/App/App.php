@@ -47,12 +47,12 @@ class App
      */
     private function parseArguments(array $arguments)
     {
-        if (count($arguments) < 2) {
-            throw new SensorDataException(sprintf('Usage: php %s DATA_KML_FILE', $this->scriptName));
-        }
         $path = explode(DIRECTORY_SEPARATOR, $arguments[0]);
         $this->scriptName = array_pop($path);
         $this->scriptDir = implode(DIRECTORY_SEPARATOR, $path);
+        if (count($arguments) < 2) {
+            throw new SensorDataException(sprintf('Usage: php %s DATA_KML_FILE', $this->scriptName));
+        }
         $this->dataFile = $this->scriptDir . DIRECTORY_SEPARATOR . $arguments[1];
         if (!is_file($this->dataFile)) {
             throw new SensorDataException(sprintf('Missing file: %s', $arguments[1]), 1);
@@ -69,7 +69,7 @@ class App
         $parser = new Parser($this->dataFile);
         $path = $parser->parse();
         $path->filterWrongData();
-        printf("Length of the path: %.2f m\n", $path->getLength());
+        printf("Length of the path: %.3f km\n", $path->getLength() / 1000);
     }
 
 }
