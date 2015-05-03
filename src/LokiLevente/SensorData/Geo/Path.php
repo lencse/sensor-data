@@ -27,15 +27,7 @@ class Path
     public function addPoint(Point $point)
     {
         $node = new Node($this, $point);
-        $node->insertAfter($this->getLastNode());
-    }
-
-    /**
-     * @return AbstractNode
-     */
-    public function getLastNode()
-    {
-        return $this->end->getPrev();
+        $node->insertBefore($this->end);
     }
 
     /**
