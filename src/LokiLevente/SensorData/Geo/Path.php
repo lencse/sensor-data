@@ -21,18 +21,13 @@ class Path
     {
         $this->start = new StartNode($this);
         $this->end  = new EndNode($this);
-        $this->start->setNext($this->end);
-        $this->end->setPrev($this->start);
+        $this->start->linkWithEndNode($this->end);
     }
 
     public function addPoint(Point $point)
     {
         $node = new Node($this, $point);
-        $last = $this->getLastNode();
-        $last->setNext($node);
-        $node->setPrev($last);
-        $node->setNext($this->end);
-        $this->end->setPrev($node);
+        $node->insertAfter($this->getLastNode());
     }
 
     /**
