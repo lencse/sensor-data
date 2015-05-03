@@ -16,19 +16,15 @@ $maxLong = $maxLat = -1000;
 
 $points = [];
 
-foreach ($path->getPoints() as $c) {
-    if ($c->getLatitude() < $minLat) $minLat = $c->getLatitude();
-    if ($c->getLatitude() > $maxLat) $maxLat = $c->getLatitude();
-    if ($c->getLongitude() < $minLong) $minLong = $c->getLongitude();
-    if ($c->getLongitude() > $maxLong) $maxLong = $c->getLongitude();
-    $points[] = ['lat' => $c->getLatitude(), 'long' => $c->getLongitude()];
+foreach ($path->getNodes() as $c) {
+    $points[] = ['lat' => $c->getY(), 'long' => $c->getX()];
 }
 
 $data = [
-    'minLat' => $minLat,
-    'minLong' => $minLong,
-    'maxLat' => $maxLat,
-    'maxLong' => $maxLong,
+    'minLat' => $path->getMinY(),
+    'minLong' => $path->getMinX(),
+    'maxLat' => $path->getMaxY(),
+    'maxLong' => $path->getMaxX(),
     'points' => $points,
 ];
 

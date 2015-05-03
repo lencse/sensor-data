@@ -31,11 +31,16 @@ class Path
     }
 
     /**
-     * @return Point[]
+     * @return AbstractNode[]
      */
-    public function getPoints()
+    public function getNodes()
     {
-        return $this->points;
+        $ret = [];
+        for ($node = $this->start; !$node->isEndNode(); $node = $node->getNext()) {
+            $ret[] = $node;
+        }
+
+        return $ret;
     }
 
     public function filterWrongData()
@@ -55,5 +60,66 @@ class Path
 
         return $length;
     }
+
+    /**
+     * @return float
+     */
+    public function getMinX()
+    {
+        $ret = 1000.0;
+        for ($node = $this->start; !$node->isEndNode(); $node = $node->getNext()) {
+            if ($ret > $node->getX()) {
+                $ret = $node->getX();
+            }
+        }
+
+        return $ret;
+    }
+
+    /**
+     * @return float
+     */
+    public function getMaxX()
+    {
+        $ret = -1000.0;
+        for ($node = $this->start; !$node->isEndNode(); $node = $node->getNext()) {
+            if ($ret < $node->getX()) {
+                $ret = $node->getX();
+            }
+        }
+
+        return $ret;
+    }
+
+    /**
+     * @return float
+     */
+    public function getMinY()
+    {
+        $ret = 1000.0;
+        for ($node = $this->start; !$node->isEndNode(); $node = $node->getNext()) {
+            if ($ret > $node->getY()) {
+                $ret = $node->getY();
+            }
+        }
+
+        return $ret;
+    }
+
+    /**
+     * @return float
+     */
+    public function getMaxY()
+    {
+        $ret = -1000.0;
+        for ($node = $this->start; !$node->isEndNode(); $node = $node->getNext()) {
+            if ($ret < $node->getY()) {
+                $ret = $node->getY();
+            }
+        }
+
+        return $ret;
+    }
+
 
 }
