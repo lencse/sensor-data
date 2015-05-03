@@ -16,9 +16,12 @@ class StartNode extends AbstractNode
     }
 
 
+    /**
+     * @return AbstractNode
+     */
     public function getPrev()
     {
-        throw new \LogicException('Start node cannot have previous node');
+        return $this;
     }
 
     /**

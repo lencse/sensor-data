@@ -24,10 +24,16 @@ class Path
         $this->start->linkWithEndNode($this->end);
     }
 
-    public function addPoint(Point $point)
+    /**
+     * @param Point $point
+     * @return Node
+     */
+    public function addNewNodeByPoint(Point $point)
     {
         $node = new Node($this, $point);
         $node->insertBefore($this->end);
+
+        return $node;
     }
 
     /**
@@ -45,7 +51,25 @@ class Path
 
     public function filterWrongData()
     {
-        // TODO: filter
+        for ($node = $this->start->getNext(); !$node->isEndNode(); $node = $node->getNext()) {
+            if (Vector::createFromNodes($node, $node->getNext())->getLength() < 1e-6) {
+                $node->delete();
+            }
+        }
+        $del = [];
+        for ($node = $this->start->getNext(); !$node->isEndNode(); $node = $node->getNext()) {
+            $v1 = Vector::createFromNodes($node, $node->getNext());
+            $v2 = Vector::createFromNodes($node->getNext(), $node->getNext()->getNext());
+            $v3 = Vector::createFromNodes($node, $node->getNext()->getNext());
+            if ($v1->getLength() > 5 * $v3->getLength() && $v2->getLength() > 5 * $v3->getLength()) {
+                $del[] = $node->getNext();
+            }
+        }
+        foreach ($del as $node) {
+            $node->delete();
+        }
+
+        print_r(count($this->getNodes()). "\n");
     }
 
     /**
@@ -55,7 +79,9 @@ class Path
     {
         $length = 0.0;
         for ($node = $this->start; !$node->isEndNode(); $node = $node->getNext()) {
-            $length += $node->getPoint()->getDistanceFrom($node->getNext()->getPoint());
+            $d = $node->getPoint()->getDistanceFrom($node->getNext()->getPoint());
+//            echo "$d\n";
+            $length += $d;
         }
 
         return $length;

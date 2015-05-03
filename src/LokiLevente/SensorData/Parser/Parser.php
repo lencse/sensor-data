@@ -34,15 +34,20 @@ class Parser
         $dom->load($this->fileName);
         $coordinates = $dom->getElementsByTagName('coordinates')->item(0);
         $path = new Path();
+        $i = 0;
         foreach (explode(' ', preg_replace('/\s+/', " ", trim($coordinates->textContent))) as $coordStr) {
+            $i++;
             $coords = explode(',', $coordStr);
             if (count($coords) == 2 || count($coords) == 3) {
-                $path->addPoint(new Point($coords[0], $coords[1]));
+                if (true || $i > 3800 && $i < 3950) {
+                    $node = $path->addNewNodeByPoint(new Point($coords[0], $coords[1]));
+                }
             }
             else {
                 throw new SensorDataException('Bad data!', 1);
             }
         }
+
 
         return $path;
     }

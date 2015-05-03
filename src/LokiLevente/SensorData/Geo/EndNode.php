@@ -15,9 +15,12 @@ class EndNode extends AbstractNode
         return $this->getPrev()->getPoint();
     }
 
+    /**
+     * @return AbstractNode
+     */
     public function getNext()
     {
-        throw new \LogicException('End node cannot have next node');
+        return $this;
     }
 
     /**
