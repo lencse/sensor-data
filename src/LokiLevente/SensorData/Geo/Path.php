@@ -8,21 +8,44 @@ class Path
 {
 
     /**
-     * @var Coordinate[]
+     * @var AbstractNode
      */
-    private $coordinates = [];
+    private $start;
 
-    public function addCoordinate(Coordinate $coordinate)
+    /**
+     * @var AbstractNode
+     */
+    private $end;
+
+    function __construct()
     {
-        $this->coordinates[] = $coordinate;
+        $this->start = new StartNode($this);
+        $this->end  = new EndNode($this);
+        $this->start->setNext($this->end);
+        $this->end->setPrev($this->start);
+    }
+
+    public function addPoint(Point $point)
+    {
+        $node = new Node($this, $point);
+        $this->getLastNode()->setNext($node);
+        $this->end->setPrev($node);
     }
 
     /**
-     * @return Coordinate[]
+     * @return AbstractNode
      */
-    public function getCoordinates()
+    public function getLastNode()
     {
-        return $this->coordinates;
+        return $this->end->getPrev();
+    }
+
+    /**
+     * @return Point[]
+     */
+    public function getPoints()
+    {
+        return $this->points;
     }
 
     public function filterWrongData()
@@ -36,8 +59,8 @@ class Path
     public function getLength()
     {
         $length = 0.0;
-        for ($i = 0; $i < count($this->coordinates) - 1; ++$i) {
-            $length += $this->coordinates[$i]->getDistanceFrom($this->coordinates[$i + 1]);
+        for ($node = $this->start; $node->getNext(); $node = $node->getNext()) {
+            $length += $node->getPoint()->getDistanceFrom($node->getNext()->getPoint());
         }
 
         return $length;

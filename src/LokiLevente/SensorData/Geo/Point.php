@@ -4,7 +4,7 @@
 namespace LokiLevente\SensorData\Geo;
 
 
-class Coordinate
+class Point
 {
 
     /**
@@ -44,10 +44,10 @@ class Coordinate
     }
 
     /**
-     * @param Coordinate $other
+     * @param Point $other
      * @return float
      */
-    public function getDistanceFrom(Coordinate $other)
+    public function getDistanceFrom(Point $other)
     {
         $earthRadius = 6371000;
 

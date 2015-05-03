@@ -16,7 +16,7 @@ $maxLong = $maxLat = -1000;
 
 $points = [];
 
-foreach ($path->getCoordinates() as $c) {
+foreach ($path->getPoints() as $c) {
     if ($c->getLatitude() < $minLat) $minLat = $c->getLatitude();
     if ($c->getLatitude() > $maxLat) $maxLat = $c->getLatitude();
     if ($c->getLongitude() < $minLong) $minLong = $c->getLongitude();
