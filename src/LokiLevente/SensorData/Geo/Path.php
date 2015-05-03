@@ -12,9 +12,6 @@ class Path
      */
     private $coordinates = [];
 
-    /**
-     * @param Coordinate $coordinate
-     */
     public function addCoordinate(Coordinate $coordinate)
     {
         $this->coordinates[] = $coordinate;

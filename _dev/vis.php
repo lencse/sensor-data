@@ -58,10 +58,11 @@ $data = [
 
             ctx.beginPath();
 
-            ctx.moveTo(transform(window.data.points[0]).x, transform(window.data.points[0]).y);
+            px = transform(window.data.points[0]);
+            ctx.moveTo(window.size - px.y, window.size - px.x);
             for (i in window.data.points) {
                 px = transform(window.data.points[i]);
-                ctx.lineTo(px.x, px.y);
+                ctx.lineTo(window.size - px.y, window.size - px.x);
             }
             ctx.stroke();
 

@@ -36,16 +36,12 @@ class Parser
         $path = new Path();
         foreach (explode(' ', preg_replace('/\s+/', " ", trim($coordinates->textContent))) as $coordStr) {
             $coords = explode(',', $coordStr);
-            if (count($coords) == 2) {
-                $coordinate = new Coordinate($coords[0], $coords[1]);
-            }
-            elseif (count($coords) == 3) {
-                $coordinate = new Coordinate($coords[0], $coords[1], $coords[2]);
+            if (count($coords) == 2 || count($coords) == 3) {
+                $path->addCoordinate(new Coordinate($coords[0], $coords[1]));
             }
             else {
-                throw new SensorDataException('Bad data!');
+                throw new SensorDataException('Bad data!', 1);
             }
-            $path->addCoordinate($coordinate);
         }
 
         return $path;

@@ -18,20 +18,13 @@ class Coordinate
     private $latitude;
 
     /**
-     * @var float
+     * @param $longitude
+     * @param $latitude
      */
-    private $altitude;
-
-    /**
-     * @param float $longitude
-     * @param float $latitude
-     * @param float $altitude
-     */
-    function __construct($longitude, $latitude, $altitude = 0.0)
+    function __construct($longitude, $latitude)
     {
         $this->longitude = (float) $longitude;
         $this->latitude = (float) $latitude;
-        $this->altitude = (float) $altitude;
     }
 
     /**
@@ -48,14 +41,6 @@ class Coordinate
     public function getLatitude()
     {
         return $this->latitude;
-    }
-
-    /**
-     * @return float
-     */
-    public function getAltitude()
-    {
-        return $this->altitude;
     }
 
     /**
