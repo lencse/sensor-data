@@ -28,7 +28,10 @@ class Path
     public function addPoint(Point $point)
     {
         $node = new Node($this, $point);
-        $this->getLastNode()->setNext($node);
+        $last = $this->getLastNode();
+        $last->setNext($node);
+        $node->setPrev($last);
+        $node->setNext($this->end);
         $this->end->setPrev($node);
     }
 
@@ -59,7 +62,7 @@ class Path
     public function getLength()
     {
         $length = 0.0;
-        for ($node = $this->start; $node->getNext(); $node = $node->getNext()) {
+        for ($node = $this->start; !$node->isEndNode(); $node = $node->getNext()) {
             $length += $node->getPoint()->getDistanceFrom($node->getNext()->getPoint());
         }
 
