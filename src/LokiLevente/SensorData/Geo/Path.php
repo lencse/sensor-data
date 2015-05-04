@@ -57,19 +57,19 @@ class Path
             }
         }
         $del = [];
+        $tolerance = 5;
         for ($node = $this->start->getNext(); !$node->isEndNode(); $node = $node->getNext()) {
             $v1 = Vector::createFromNodes($node, $node->getNext());
             $v2 = Vector::createFromNodes($node->getNext(), $node->getNext()->getNext());
             $v3 = Vector::createFromNodes($node, $node->getNext()->getNext());
-            if ($v1->getLength() > 5 * $v3->getLength() && $v2->getLength() > 5 * $v3->getLength()) {
+            if ($v1->getLength() > $tolerance * $v3->getLength() && $v2->getLength() > $tolerance * $v3->getLength()) {
                 $del[] = $node->getNext();
+                $node = $node->getNext();
             }
         }
         foreach ($del as $node) {
             $node->delete();
         }
-
-        print_r(count($this->getNodes()). "\n");
     }
 
     /**
@@ -147,5 +147,24 @@ class Path
         return $ret;
     }
 
+    public function copy()
+    {
+        $new = new self();
+        for ($node = $this->start->getNext(); !$node->getNext()->isEndNode(); $node = $node->getNext()) {
+            $new->addNewNodeByPoint($node->getPoint());
+        }
+
+        return $new;
+    }
+
+    public function getNodeCoords()
+    {
+        $ret = [];
+        for ($node = $this->start->getNext(); !$node->getNext()->isEndNode(); $node = $node->getNext()) {
+            $ret[] = ['x' => $node->getX(), 'y' => $node->getY()];
+        }
+
+        return $ret;
+    }
 
 }

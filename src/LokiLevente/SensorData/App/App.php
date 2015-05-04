@@ -5,6 +5,7 @@ namespace LokiLevente\SensorData\App;
 
 
 use LokiLevente\SensorData\Exception\SensorDataException;
+use LokiLevente\SensorData\Geo\Path;
 use LokiLevente\SensorData\Parser\Parser;
 
 
@@ -25,6 +26,16 @@ class App
      * @var string
      */
     private $dataFile;
+
+    /**
+     * @var Path
+     */
+    private $path;
+
+    /**
+     * @var Path
+     */
+    private $noFiltered;
 
     /**
      * @param string[] $arguments
@@ -67,9 +78,35 @@ class App
     {
         $this->parseArguments($arguments);
         $parser = new Parser($this->dataFile);
-        $path = $parser->parse();
-        $path->filterWrongData();
-        printf("Length of the path: %.3f km\n", $path->getLength() / 1000);
+        $this->path = $parser->parse();
+        $this->noFiltered = $this->path->copy();
+        $this->path->filterWrongData();
+    }
+
+    public function printOutput()
+    {
+        printf("Length of the path: %.3f km\n", $this->path->getLength() / 1000);
+    }
+
+    public function printOutputForNoFiltered()
+    {
+        printf("Length of the path: %.3f km\n", $this->noFiltered->getLength() / 1000);
+    }
+
+    /**
+     * @return Path
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
+     * @return Path
+     */
+    public function getNoFiltered()
+    {
+        return $this->noFiltered;
     }
 
 }
