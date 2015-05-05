@@ -6,10 +6,10 @@ namespace LokiLevente;
 
 use LokiLevente\SensorData\App\App;
 
-include "../autoload.php";
+include "autoload.php";
 
-$app = new App();
-$app->run([__FILE__, '../data/sensor.kml']);
+$app = new App(__DIR__);
+$app->run([__FILE__, 'data/sensor.kml']);
 
 $data = [
     'minY' => $app->getNoFilteredPath()->getMinY(),
@@ -66,9 +66,9 @@ $data = [
             for (i in path) {
                 px = transform(path[i]);
                 ctx.lineTo(window.size - px.x, window.size - px.y);
-                if (i % 100 == 0) {
-                    ctx.fillText('[' + i + ']', window.size - px.x + 5, window.size - px.y);
-                }
+//                if (i % 100 == 0) {
+//                    ctx.fillText('[' + i + ']', window.size - px.x + 5, window.size - px.y);
+//                }
 //                ctx.fillText('[' + path[i].x + ', ' + path[i].y + ']', window.size - px.x + 5, window.size - px.y);
             }
             ctx.stroke();

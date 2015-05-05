@@ -15,12 +15,12 @@ class App
     /**
      * @var string
      */
-    private $scriptName;
+    private $dir;
 
     /**
      * @var string
      */
-    private $scriptDir;
+    private $scriptName;
 
     /**
      * @var string
@@ -36,6 +36,14 @@ class App
      * @var Path
      */
     private $noFiltered;
+
+    /**
+     * @param $dir
+     */
+    function __construct($dir)
+    {
+        $this->dir = $dir;
+    }
 
     /**
      * @param string[] $arguments
@@ -64,12 +72,12 @@ class App
     {
         $path = explode(DIRECTORY_SEPARATOR, $arguments[0]);
         $this->scriptName = array_pop($path);
-        $this->scriptDir = implode(DIRECTORY_SEPARATOR, $path);
         if (count($arguments) < 2) {
             throw new SensorDataException(sprintf('Usage: php %s DATA_KML_FILE', $this->scriptName));
         }
-        $this->dataFile = $this->scriptDir . DIRECTORY_SEPARATOR . $arguments[1];
+        $this->dataFile = $this->dir . DIRECTORY_SEPARATOR . $arguments[1];
         if (!is_file($this->dataFile)) {
+            echo $this->dataFile . "\n";
             throw new SensorDataException(sprintf('Missing file: %s', $arguments[1]), 1);
         }
     }

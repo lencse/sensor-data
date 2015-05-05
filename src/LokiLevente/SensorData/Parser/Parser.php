@@ -49,7 +49,6 @@ class Parser
             }
         }
 
-
         return $path;
     }
 
