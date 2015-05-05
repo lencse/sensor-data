@@ -42,6 +42,10 @@ class App
      */
     public function run(array $arguments)
     {
+        // @TODO
+        // if (null === $argv) {
+        //     $argv = $_SERVER['argv'];
+        // }
         try {
             $this->execute($arguments);
         }
@@ -96,7 +100,7 @@ class App
     /**
      * @return Path
      */
-    public function getPath()
+    public function getFilteredPath()
     {
         return $this->path;
     }
@@ -104,7 +108,7 @@ class App
     /**
      * @return Path
      */
-    public function getNoFiltered()
+    public function getNoFilteredPath()
     {
         return $this->noFiltered;
     }

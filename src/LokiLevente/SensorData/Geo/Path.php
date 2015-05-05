@@ -51,7 +51,7 @@ class Path
 
     public function filterWrongData()
     {
-        for ($node = $this->start->getNext(); !$node->isEndNode(); $node = $node->getNext()) {
+        for ($node = $this->start->getNext(); !$node->getNext()->isEndNode(); $node = $node->getNext()) {
             if (Vector::createFromNodes($node, $node->getNext())->getLength() < 1e-6) {
                 $node->delete();
             }

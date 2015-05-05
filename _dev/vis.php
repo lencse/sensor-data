@@ -12,12 +12,12 @@ $app = new App();
 $app->run([__FILE__, '../data/sensor.kml']);
 
 $data = [
-    'minY' => $app->getNoFiltered()->getMinY(),
-    'minX' => $app->getNoFiltered()->getMinX(),
-    'maxY' => $app->getNoFiltered()->getMaxY(),
-    'maxX' => $app->getNoFiltered()->getMaxX(),
-    'filteredPoints' => $app->getPath()->getNodeCoords(),
-    'noFilteredPoints' => $app->getNoFiltered()->getNodeCoords(),
+    'minY' => $app->getNoFilteredPath()->getMinY(),
+    'minX' => $app->getNoFilteredPath()->getMinX(),
+    'maxY' => $app->getNoFilteredPath()->getMaxY(),
+    'maxX' => $app->getNoFilteredPath()->getMaxX(),
+    'filteredPoints' => $app->getFilteredPath()->getNodeCoords(),
+    'noFilteredPoints' => $app->getNoFilteredPath()->getNodeCoords(),
 ];
 
 ?>
@@ -38,8 +38,8 @@ $data = [
         <td><canvas id="c2"></canvas></td>
     </tr>
     <tr>
-        <td><?php $app->printOutputForNoFiltered(); ?></td>
-        <td><?php $app->printOutput(); ?></td>
+        <td><?php printf("%.3f km", $app->getNoFilteredPath()->getLength() / 1000) ?></td>
+        <td><?php printf("%.3f km", $app->getFilteredPath()->getLength() / 1000) ?></td>
     </tr>
 </table>
     <script>
@@ -61,9 +61,15 @@ $data = [
 
             px = transform(path);
             ctx.moveTo(window.size - px.x, window.size - px.y);
+            ctx.color = '#000';
+            ctx.font = '12px Arial';
             for (i in path) {
                 px = transform(path[i]);
                 ctx.lineTo(window.size - px.x, window.size - px.y);
+                if (i % 100 == 0) {
+                    ctx.fillText('[' + i + ']', window.size - px.x + 5, window.size - px.y);
+                }
+//                ctx.fillText('[' + path[i].x + ', ' + path[i].y + ']', window.size - px.x + 5, window.size - px.y);
             }
             ctx.stroke();
         }

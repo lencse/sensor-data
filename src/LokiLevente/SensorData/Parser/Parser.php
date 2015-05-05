@@ -35,11 +35,12 @@ class Parser
         $coordinates = $dom->getElementsByTagName('coordinates')->item(0);
         $path = new Path();
         $i = 0;
+//        $interval = [300, 450];
         foreach (explode(' ', preg_replace('/\s+/', " ", trim($coordinates->textContent))) as $coordStr) {
             $i++;
             $coords = explode(',', $coordStr);
             if (count($coords) == 2 || count($coords) == 3) {
-                if (true || $i > 3800 && $i < 3950) {
+                if (!isset($interval) || $i >= $interval[0] && $i < $interval[1]) {
                     $node = $path->addNewNodeByPoint(new Point($coords[0], $coords[1]));
                 }
             }
